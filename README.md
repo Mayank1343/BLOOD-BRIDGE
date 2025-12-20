@@ -42,22 +42,7 @@ Built as a final‑year practice project to learn **React**, **Spring Boot**, **
 
 ## 📁 Project Structure
 
-root
-├─ backend/ # Spring Boot API
-│ ├─ src/main/java/... # Controllers, models, repositories
-│ ├─ src/main/resources/ # application.properties
-│ ├─ pom.xml
-│ ├─ Dockerfile
-│ └─ docker-compose.yml
-└─ frontend/ # React app
-├─ src/
-│ ├─ pages/ # DonorForm, DonorList
-│ ├─ App.js
-│ ├─ config.js # API base URL
-│ └─ index.css
-├─ package.json
-└─ public/
-
+<img width="533" height="385" alt="image" src="https://github.com/user-attachments/assets/8ca68868-f046-40f0-b4f7-1d8d5d92781b" />
 
 ---
 
