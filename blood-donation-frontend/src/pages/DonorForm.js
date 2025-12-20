@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { addDonor } from '../services/api';
+
 
 export default function DonorForm() {
   const [form, setForm] = useState({
@@ -48,7 +49,7 @@ export default function DonorForm() {
     }
 
     try {
-      await axios.post('http://localhost:8080/donors', form);
+      await addDonor(form);
       setMsg('Donor registered successfully!');
       setForm({ name: '', bloodGroup: '', city: '', phone: '' });
       setErrors({});

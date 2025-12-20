@@ -1,0 +1,31 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: donor-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: blooddonors
+      MYSQL_USER: donoruser
+      MYSQL_PASSWORD: donorpass
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  app:
+    build: .
+    container_name: donor-backend
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: blooddonors
+      DB_USER: donoruser
+      DB_PASSWORD: donorpass
+      PORT: 8080
+    ports:
+      - "8080:8080"
+
+volumes:
+  db_data:

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { fetchDonors as fetchDonorsApi, deleteDonor } from '../services/api';
+
 
 export default function DonorList() {
   const [donors, setDonors] = useState([]);
@@ -14,11 +15,11 @@ export default function DonorList() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const fetchDonors = async () => {
+  const loadDonors = async () => {
     setLoading(true);
     setError('');
     try {
-      const response = await axios.get('http://localhost:8080/donors', { params });
+      const response = await fetchDonorsApi(params);
       setDonors(response.data.content || []);
       setTotalPages(response.data.totalPages || 0);
     } catch (err) {
@@ -29,7 +30,7 @@ export default function DonorList() {
   };
 
   useEffect(() => {
-    fetchDonors();
+    loadDonors();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.page, params.size, params.sort, params.bloodGroup, params.city]);
 
@@ -50,12 +51,13 @@ export default function DonorList() {
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this donor?')) return;
     try {
-      await axios.delete(`http://localhost:8080/donors/${id}`);
-      fetchDonors();
+      await deleteDonor(id);
+      loadDonors();
     } catch (err) {
       setError('Failed to delete donor');
     }
   };
+
 
   return (
     <div>

@@ -1,9 +1,19 @@
 // src/services/api.js
 import axios from 'axios';
+import API_BASE_URL from '../config';
 
-const API_URL = 'http://localhost:8080'; // Update if backend runs on different port
+const api = axios.create({
+  baseURL: API_BASE_URL,
+});
 
-export const fetchDonors = (params) => axios.get(`${API_URL}/donors`, { params });
-export const addDonor = (data) => axios.post(`${API_URL}/donors`, data);
-export const fetchRequests = (params) => axios.get(`${API_URL}/requests`, { params });
-export const addRequest = (data) => axios.post(`${API_URL}/requests`, data);
+export default api;
+
+// Donors
+export const fetchDonors = (params) => api.get('/donors', { params });
+export const addDonor = (data) => api.post('/donors', data);
+export const deleteDonor = (id) => api.delete(`/donors/${id}`);
+
+
+// Requests (if/when you create these endpoints)
+export const fetchRequests = (params) => api.get('/requests', { params });
+export const addRequest = (data) => api.post('/requests', data);
