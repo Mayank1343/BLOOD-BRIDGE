@@ -1,7 +1,7 @@
 # 🩸 Blood Donor Management Web App
 
 A simple full‑stack web application to register blood donors and search them by blood group and city.  
-Built as a final‑year practice project to learn **React**, **Spring Boot**, **REST APIs**, **MySQL**, and **Docker**.
+Built as a practice project to learn **React**, **Spring Boot**, **REST APIs**, **MySQL**, and **Docker**.
 
 ---
 
@@ -162,7 +162,7 @@ All endpoints are prefixed with `/donors`.
 
 ## ☁️ Deployment Overview
 
-This is a simple deployment flow suitable for a fresher portfolio project:
+This is a simple deployment flow for this project:
 
 ### Backend (Docker image)
 
