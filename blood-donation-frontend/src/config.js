@@ -5,4 +5,8 @@ const PROD_API  = "https://community-blood-donation-api.onrender.com";
 const API_BASE_URL =
   process.env.NODE_ENV === "production" ? PROD_API : LOCAL_API;
 
+if (typeof window !== "undefined") {
+  window.API_BASE_URL = API_BASE_URL;  
+}
+
 export default API_BASE_URL;
