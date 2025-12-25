@@ -1,215 +1,207 @@
-# 🩸 Blood Donor Management Web App
+🩸 Community Blood Donation – Full Stack App
+A full‑stack web application that connects voluntary blood donors with people in need of blood requests.
+The project consists of a Spring Boot REST API backend and a React frontend deployed with a connected cloud setup (Render + Netlify).
+​
 
-A simple full‑stack web application to register blood donors and search them by blood group and city.  
-Built as a practice project to learn **React**, **Spring Boot**, **REST APIs**, **MySQL**, and **Docker**.
+🚀 Live Demo
+Frontend (Netlify): https://superlative-marshmallow-9c48ab.netlify.app
 
----
+Backend (Render): https://community-blood-donation-api.onrender.com
 
-## ✨ Features
+Use the frontend URL in resumes/portfolios; it always points to the latest production build.
+​
 
-- Register new blood donors with name, blood group, city, and phone number.  
-- Client‑side form validation for required fields and 10‑digit phone numbers.  
-- Paginated donor list with:
-  - Search by blood group.  
-  - Search by city.  
-  - Sorting by name or city.  
-- Delete donors from the list (and database) from the UI.  
-- Clean, minimal UI with basic custom CSS styling.  
+✨ Features
+Donor management
 
----
+Add new donors with name, blood group, city and contact details.
 
-## 🛠 Tech Stack
+View paginated list of donors with basic filtering options.
 
-**Frontend**
+Blood request management
 
-- React (functional components, hooks)  
-- Axios for HTTP calls  
-- React Router for navigation  
+Create blood requests with patient, hospital and required units.
 
-**Backend**
+View list of open requests to help donors respond quickly.
 
-- Java 17  
-- Spring Boot (Web, Data JPA, Validation)  
-- MySQL database  
+Clean, single‑page React UI
 
-**DevOps / Deployment**
+Simple navigation between Donor List and Register Donor pages.
 
-- Docker & Docker Compose for backend + database containerization  
-- Environment‑based configuration for DB and API URLs  
-- (Optional) Render for backend hosting and Netlify for frontend hosting  
+Axios service layer that talks to the Spring Boot API via environment‑based base URLs.
 
----
+Cloud deployment
 
-## 📁 Project Structure
+Backend deployed on Render as a Spring Boot service.
 
-<img width="533" height="385" alt="image" src="https://github.com/user-attachments/assets/8ca68868-f046-40f0-b4f7-1d8d5d92781b" />
+Frontend deployed on Netlify, configured with environment variables to talk to the backend.
+​
 
----
+🛠 Tech Stack
+Layer	Technology
+Backend	Spring Boot, Spring Web, Spring Data JPA
+Database	(H2 / MySQL – update according to your project)
+Frontend	React (Create React App), React Router, Axios
+Build	Maven (backend), npm (frontend)
+Hosting	Render (API), Netlify (React app)
+📁 Project Structure
+text
+Community-blood-donation-api/
+├── blood-donation-api/            # Spring Boot backend
+│   ├── src/main/java/...          # Controllers, services, entities, repositories
+│   └── pom.xml                    # Maven configuration
+└── blood-donation-frontend/       # React frontend
+├── src/
+│   ├── pages/                 # Donor list & donor form pages
+│   ├── services/api.js        # Axios instance and API functions
+│   ├── App.js                 # Routing + navigation
+│   └── config.js              # Frontend API base URL helper
+├── .env.development           # Local env variables (not committed)
+└── package.json
+🧩 How to Run Locally
+1. Prerequisites
+   Java 17+
 
-## 🚀 Getting Started (Local Development)
+Maven 3+
 
-### 1️⃣ Prerequisites
+Node.js 18+ and npm or yarn
 
-- Java 17+  
-- Maven  
-- Node.js + npm  
-- MySQL (if running without Docker)  
-- Docker & Docker Compose (if running with containers)
+Git
 
----
+2. Clone the repository
+   bash
+   git clone https://github.com/Mayank1343/Community-Blood-Donation-API.git
+   cd Community-Blood-Donation-API
+3. Run the backend (Spring Boot)
+   From the blood-donation-api folder:
 
-### 2️⃣ Backend – run without Docker (simple mode)
+bash
+cd blood-donation-api
+mvn clean spring-boot:run
+The API will start on http://localhost:8080 (default Spring Boot port).
 
-1. Create a database in MySQL:
+Verify by opening http://localhost:8080/actuator/health or any sample endpoint you have.
 
-CREATE DATABASE blooddonors;
+4. Configure frontend environment
+   From the blood-donation-frontend folder:
 
+bash
+cd ../blood-donation-frontend
+Create a file named .env.development:
 
-2. In `backend/src/main/resources/application.properties`:
+text
+REACT_APP_API_BASE=http://localhost:8080
+This tells React to call the local Spring Boot backend during development using an environment variable supported by Create React App.
+​
 
-spring.datasource.url=jdbc:mysql://localhost:3306/blooddonors?useSSL=false&serverTimezone=UTC
-spring.datasource.username=your_user
-spring.datasource.password=your_password
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-server.port=8080
+5. Run the frontend (React)
+   Still in blood-donation-frontend:
 
-
-3. From the `backend` folder:
-
-mvn spring-boot:run
-
-
-4. API base URL:
-
-http://localhost:8080
-
-
-You can test with `http://localhost:8080/donors`.
-
----
-
-### 3️⃣ Backend – run with Docker & Docker Compose
-
-1. Ensure `Dockerfile` and `docker-compose.yml` are in the `backend` folder.  
-2. From `backend`:
-
-docker compose build
-docker compose up
-
-
-3. The Spring Boot app runs at:
-
-http://localhost:8080
-and connects to the MySQL container automatically.  
-
-
-4. To stop:
-
-docker compose down
-
-
----
-
-### 4️⃣ Frontend – React
-
-1. From the `frontend` folder:
-
+bash
 npm install
 npm start
+# or: yarn install && yarn start
+The React app runs on http://localhost:3000.
 
+It will automatically call the backend at http://localhost:8080 via the Axios instance configured in src/services/api.js.
 
-2. The React app runs at:
+☁️ Deployment Guide (Cloud)
+This project is set up for:
 
-http://localhost:3000
+Backend: Render
 
+Frontend: Netlify
 
-3. Make sure `src/config.js` points to the backend:
+A. Deploy Spring Boot backend on Render
+Push the repo to GitHub.
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
+Create a new Web Service on Render.
+
+Connect the GitHub repo and choose the blood-donation-api folder as the root (or configure the build command accordingly).
+
+Common configuration:
+
+Build command: mvn clean package
+
+Start command: java -jar target/*.jar
+
+Environment: Java 17
+
+After deploy, Render will give a URL like:
+https://community-blood-donation-api.onrender.com.
+​
+
+B. Configure React app for production (Netlify)
+In the blood-donation-frontend project, create a small config helper if not already present:
+
+js
+// src/config.js
+const API_BASE_URL = process.env.REACT_APP_API_BASE;
 export default API_BASE_URL;
+Ensure the Axios service uses this base URL:
 
+js
+// src/services/api.js
+import axios from 'axios';
+import API_BASE_URL from '../config';
 
----
+const api = axios.create({
+baseURL: API_BASE_URL,
+});
 
-## 🌐 API Endpoints
+export default api;
 
-All endpoints are prefixed with `/donors`.
+export const fetchDonors = (params) => api.get('/donors', { params });
+export const addDonor   = (data)   => api.post('/donors', data);
+export const deleteDonor = (id)    => api.delete(`/donors/${id}`);
 
-- `GET /donors`  
-  - Query parameters:
-    - `bloodGroup` (optional)  
-    - `city` (optional)  
-    - `page` (default `0`)  
-    - `size` (default `10`)  
-    - `sort` (default `name`)  
+export const fetchRequests = (params) => api.get('/requests', { params });
+export const addRequest    = (data)   => api.post('/requests', data);
+Build settings for Netlify:
 
-- `POST /donors`  
-  - Request body (JSON):
+Base directory: blood-donation-frontend (or configure as needed).
 
-    ```
-    {
-      "name": "Alice Smith",
-      "bloodGroup": "B+",
-      "city": "Chicago",
-      "phone": "9876543210"
-    }
-    ```
+Build command: npm run build
 
-- `DELETE /donors/{id}`  
+Publish directory: build.
+​
 
----
+C. Netlify environment variable
+In the Netlify project:
 
-## ☁️ Deployment Overview
+Go to Site settings → Build & deploy → Environment variables.
+​
 
-This is a simple deployment flow for this project:
+Add:
 
-### Backend (Docker image)
+Key: REACT_APP_API_BASE
 
-- Build a Docker image from `backend/Dockerfile`.  
-- Deploy the container to a hosting platform (for example Render or any Docker‑compatible service).  
-- Configure environment variables for DB connection:
-  - `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `PORT`, etc.  
+Value: https://community-blood-donation-api.onrender.com
 
-### Frontend (Static hosting)
+Trigger a new deploy (Deploys → Trigger deploy → Deploy site).
 
-1. From `frontend`:
+The production site URL will look like:
+https://superlative-marshmallow-9c48ab.netlify.app and will call the Render API using that env variable.
 
-REACT_APP_API_BASE_URL = https://your-backend-domain.com
+📌 Usage
+Open the live frontend URL or http://localhost:3000 in development.
 
+Use the navigation bar to:
 
-4. Redeploy the frontend so it calls the deployed backend.
+View the Donor List with all registered donors.
 
----
+Go to Register Donor to add a new donor.
 
-## 🖼 Screenshots
+The app communicates with the backend API to persist donors and fetch data in real time.
 
-_screenshots to be added after running or deploying the app._
+🔮 Future Improvements
+Authentication for donors and admins.
 
-For example:
+Advanced filters (by city, blood group, availability).
 
-- Registration page (validations visible).  
-- Donor list with filters, pagination, and delete buttons.  
+Email/SMS notifications for matching donors.
 
----
+Role‑based dashboards for admin, donor and requester.
 
-## 🔧 Possible Improvements
-
-- User authentication and admin‑only access for donor management.  
-- More donor attributes (age, last donation date, availability).  
-- Better UI using a component library (Material UI, Bootstrap, etc.).  
-- Export donors to CSV or PDF.  
-- CI/CD pipeline to automatically build and deploy on every push.
-
----
-
-## 🎓 Learning Outcomes
-
-Through this project:
-
-- Built a complete full‑stack web application using React, Spring Boot, and MySQL.  
-- Practiced designing REST APIs with pagination, filtering, and sorting.  
-- Implemented form validation and basic UI/UX improvements.  
-- Gained hands‑on experience with Docker, Docker Compose, and environment‑based configuration.  
-
-Feel free to open issues or suggestions if you see ways to improve this project. 🙂
+📄 License
+This project is for learning and portfolio purposes.
