@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { fetchDonors as fetchDonorsApi, deleteDonor } from '../services/api';
 
-
 export default function DonorList() {
   const [donors, setDonors] = useState([]);
   const [params, setParams] = useState({
@@ -22,7 +21,7 @@ export default function DonorList() {
       const response = await fetchDonorsApi(params);
       setDonors(response.data.content || []);
       setTotalPages(response.data.totalPages || 0);
-    } catch (err) {
+    } catch {
       setError('Failed to fetch donors');
     } finally {
       setLoading(false);
@@ -48,21 +47,22 @@ export default function DonorList() {
     setParams({ ...params, sort: e.target.value, page: 0 });
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async id => {
     if (!window.confirm('Delete this donor?')) return;
     try {
       await deleteDonor(id);
       loadDonors();
-    } catch (err) {
+    } catch {
       setError('Failed to delete donor');
     }
   };
 
-
   return (
     <div>
       <h2>Donor List</h2>
-      <div>
+
+      {/* Filters */}
+      <div className="form-grid">
         <input
           name="bloodGroup"
           placeholder="Blood Group"
@@ -84,26 +84,29 @@ export default function DonorList() {
       {loading && <p>Loading donors...</p>}
       {error && <p className="error-message">{error}</p>}
 
+      {/* Donor list */}
       <ul>
         {donors.length === 0 ? (
           <li>No donors found</li>
         ) : (
           donors.map(donor => (
             <li key={donor.id}>
-              {donor.name} ({donor.bloodGroup}) - {donor.city}{' '}
+              {donor.name} ({donor.bloodGroup}) – {donor.city}{' '}
               <button onClick={() => handleDelete(donor.id)}>Delete</button>
             </li>
           ))
         )}
       </ul>
 
-      <div>
+      {/* Pagination */}
+      <div className="pagination-buttons">
         <button
           disabled={params.page === 0}
           onClick={() => handlePageChange(params.page - 1)}
         >
           Previous
         </button>
+
         <button
           disabled={params.page + 1 >= totalPages}
           onClick={() => handlePageChange(params.page + 1)}
@@ -112,7 +115,9 @@ export default function DonorList() {
         </button>
       </div>
 
-      <p>Page {totalPages === 0 ? 0 : params.page + 1} of {totalPages}</p>
+      <p>
+        Page {totalPages === 0 ? 0 : params.page + 1} of {totalPages}
+      </p>
     </div>
   );
 }
