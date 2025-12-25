@@ -92,7 +92,13 @@ export default function DonorList() {
           donors.map(donor => (
             <li key={donor.id}>
               {donor.name} ({donor.bloodGroup}) – {donor.city}{' '}
-              <button onClick={() => handleDelete(donor.id)}>Delete</button>
+              <button
+  className="delete-button"
+  onClick={() => handleDelete(donor.id)}
+>
+  Delete
+</button>
+
             </li>
           ))
         )}
