@@ -1,6 +1,6 @@
 # 🩸 Community Blood Donation – Full Stack Application
 
-A **full-stack web application** that connects voluntary **blood donors** with people who need blood.  
+Blood Bridge, a **full-stack web application** that connects voluntary **blood donors** with people who need blood.  
 The system is built with a **Spring Boot REST API** backend and a **React single-page application** frontend.
 
 The backend is deployed on **Render**, and the frontend is deployed on **Netlify**, making the app fully cloud-ready and production-usable.
