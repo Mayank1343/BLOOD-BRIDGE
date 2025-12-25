@@ -140,6 +140,28 @@ select:focus {
   outline: none;
 }
 
+.delete-button {
+  background-color: #000000;
+  color: #ffffff;
+  border: none;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.delete-button:hover {
+  background-color: #222222;
+  transform: translateY(-1px);
+}
+
+.delete-button:active {
+  background-color: #000000;
+  transform: translateY(0);
+}
+
+
 /* Form submit button */
 form button {
   align-self: center;
